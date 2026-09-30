@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JS Dottignies - Fiche joueur</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">JS DOTTIGNIES</div>
+        <h1>Fiche joueur</h1>
+        <p>Merci de compléter les informations ci-dessous.</p>
+      </div>
+      <a class="admin-link" href="admin.html">Espace admin</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <form id="playerForm">
+        <div class="grid">
+          <label>Équipe
+            <select id="team" required></select>
+          </label>
+
+          <label>Nom et prénom
+            <input id="fullName" type="text" autocomplete="name" required>
+          </label>
+
+          <label class="full">Adresse
+            <input id="address" type="text" autocomplete="street-address" required>
+          </label>
+
+          <label>E-mail
+            <input id="email" type="email" autocomplete="email" required>
+          </label>
+
+          <label>N° de téléphone
+            <input id="phone" type="tel" autocomplete="tel" required>
+          </label>
+
+          <label>Téléphone d'urgence 1
+            <input id="emergency1" type="tel" required>
+          </label>
+
+          <label>Téléphone d'urgence 2
+            <input id="emergency2" type="tel" required>
+          </label>
+        </div>
+
+        <div class="medical-box"><label class="check-row"><input id="certificateGiven" type="checkbox"><span>Certificat médical remis au coach</span></label></div><label class="check-row consent">
+          <input id="consent" type="checkbox" required>
+          <span>Je confirme que les informations encodées sont correctes et peuvent être utilisées par la JS Dottignies pour la gestion administrative du club.</span>
+        </label>
+
+        <button id="submitBtn" class="primary" type="submit">Envoyer mes informations</button>
+        <div id="status" class="status" role="status"></div>
+      </form>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>JS Dottignies - Administration joueurs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="eyebrow">JS DOTTIGNIES</div>
+        <h1>Administration joueurs</h1>
+        <p>Données reçues, certificats et cotisations.</p>
+      </div>
+      <a class="admin-link" href="index.html">Formulaire joueur</a>
+    </div>
+  </header>
+
+  <main class="container wide">
+    <section id="loginCard" class="card login-card">
+      <h2>Connexion administrateur</h2>
+      <form id="loginForm">
+        <label>E-mail
+          <input id="adminEmail" type="email" required>
+        </label>
+        <label>Mot de passe
+          <input id="adminPassword" type="password" required>
+        </label>
+        <button class="primary" type="submit">Se connecter</button>
+        <div id="loginStatus" class="status"></div>
+      </form>
+    </section>
+
+    <section id="adminPanel" class="hidden">
+      <div class="toolbar card">
+        <div>
+          <h2>Joueurs enregistrés</h2>
+          <div id="counter" class="muted"></div>
+        </div>
+        <div class="toolbar-actions">
+          <select id="teamFilter">
+            <option value="">Toutes les équipes</option>
+          </select>
+          <input id="search" type="search" placeholder="Rechercher un nom…">
+          <button id="exportBtn" class="secondary" type="button">Exporter Excel</button>
+          <button id="logoutBtn" class="ghost" type="button">Déconnexion</button>
+        </div>
+      </div>
+
+      <div class="table-wrap card">
+        <table>
+          <thead>
+            <tr>
+              <th>Équipe</th>
+              <th>Nom et prénom</th>
+              <th>Adresse</th>
+              <th>E-mail</th>
+              <th>Téléphone</th>
+              <th>Urgence 1</th>
+              <th>Urgence 2</th>
+              <th>Certificat</th>
+              <th>Cotisation</th>
+              <th>Reçu le</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="playersBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="editDialog">
+    <form id="editForm" method="dialog" class="dialog-form">
+      <input id="editId" type="hidden">
+      <h2>Modifier la fiche</h2>
+      <div class="grid">
+        <label>Équipe<select id="editTeam" required></select></label>
+        <label>Nom et prénom<input id="editFullName" required></label>
+        <label class="full">Adresse<input id="editAddress" required></label>
+        <label>E-mail<input id="editEmail" type="email" required></label>
+        <label>Téléphone<input id="editPhone" required></label>
+        <label>Urgence 1<input id="editEmergency1" required></label>
+        <label>Urgence 2<input id="editEmergency2" required></label>
+      </div>
+
+      <div class="medical-box">
+        <label class="check-row">
+          <input id="editCertificateGiven" type="checkbox">
+          <span>Certificat médical remis</span>
+        </label>
+        <div>
+          <strong>Cotisation</strong>
+          <div class="payment-checks">
+            <label class="check-row"><input id="paidPartial" type="checkbox"><span>Partielle</span></label>
+            <label class="check-row"><input id="paidTotal" type="checkbox"><span>Totale</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <button id="cancelEdit" class="ghost" type="button">Annuler</button>
+        <button class="primary" value="default" type="submit">Enregistrer</button>
+      </div>
+      <div id="editStatus" class="status"></div>
+    </form>
+  </dialog>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
