@@ -7,4 +7,4 @@ export const firebaseConfig = {
   appId: "1:593263373882:web:1b9794c24710565af58f03"
 };
 
-export const ADMIN_EMAIL = "secretariat@jsdottignies.be";
+export const ADMIN_EMAIL = "steve.l@dlgroupe.com";

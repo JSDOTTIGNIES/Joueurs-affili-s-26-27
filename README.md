@@ -42,7 +42,7 @@ Ouvrir `firebase-config.js` et remplacer toutes les valeurs `A_REMPLACER` par la
 
 Modifier également :
 ```js
-export const ADMIN_EMAIL = "secretariat@jsdottignies.be";
+export const ADMIN_EMAIL = "steve.l@dlgroupe.com";
 ```
 
 ## 3. Firestore
@@ -50,7 +50,7 @@ Dans Firebase :
 1. Build > Firestore Database
 2. Créer la base
 3. Copier le contenu de `firestore.rules`
-4. Remplacer dans les règles `secretariat@jsdottignies.be` par le même e-mail admin
+4. Remplacer dans les règles `steve.l@dlgroupe.com` par le même e-mail admin
 5. Publier
 
 ## 4. Storage
@@ -58,7 +58,7 @@ Dans Firebase :
 1. Build > Storage
 2. Activer Storage
 3. Copier le contenu de `storage.rules`
-4. Remplacer `secretariat@jsdottignies.be` par le même e-mail admin
+4. Remplacer `steve.l@dlgroupe.com` par le même e-mail admin
 5. Publier
 
 ## 5. Authentication
@@ -109,7 +109,7 @@ La suppression d'une fiche joueur supprime la fiche Firestore mais ne supprime p
 
 L'écran admin demande uniquement un code. En arrière-plan, Firebase Authentication utilise le compte :
 
-`secretariat@jsdottignies.be`
+`steve.l@dlgroupe.com`
 
 Le mot de passe Firebase de ce compte doit être exactement le code administrateur choisi :
 

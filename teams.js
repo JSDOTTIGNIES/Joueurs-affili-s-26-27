@@ -2,7 +2,6 @@ export const TEAMS = [
   "U6",
   "U8 A",
   "U8 B",
-  "U10 FILLE",
   "U10 GARCON LOUPS",
   "U10 GARCONS LIONS",
   "U10 GARCON TIGRES",
@@ -20,5 +19,6 @@ export const TEAMS = [
   "U21 hommes",
   "P4 hommes",
   "P3 hommes",
-  "P2 hommes"
+  "P2 hommes",
+  "Vétérans"
 ];
