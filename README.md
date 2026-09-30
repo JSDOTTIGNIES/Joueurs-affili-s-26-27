@@ -17,7 +17,7 @@ Application statique compatible **GitHub Pages** avec **Firebase Firestore + Fir
 - Confirmation de l'envoi
 
 ### Espace administrateur
-- Connexion par e-mail + mot de passe
+- Connexion par code administrateur uniquement
 - Liste de toutes les fiches
 - Filtre par équipe
 - Recherche par nom / e-mail / téléphone
@@ -103,3 +103,16 @@ Pour une utilisation réelle, remplace impérativement l'adresse admin dans les 
 
 ## Remarque
 La suppression d'une fiche joueur supprime la fiche Firestore mais ne supprime pas automatiquement le fichier certificat dans Storage. Cette version privilégie une installation simple sans serveur. Les anciens fichiers peuvent être supprimés depuis Firebase Storage, ou via une Cloud Function dans une version avancée.
+
+
+## Accès administrateur simplifié
+
+L'écran admin demande uniquement un code. En arrière-plan, Firebase Authentication utilise le compte :
+
+`secretariat@jsdottignies.be`
+
+Le mot de passe Firebase de ce compte doit être exactement le code administrateur choisi :
+
+`JS7711`
+
+Si le mot de passe Firebase de cet utilisateur est différent, l'accès admin ne fonctionnera pas.
