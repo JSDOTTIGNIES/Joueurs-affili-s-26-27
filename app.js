@@ -30,7 +30,7 @@ form.addEventListener("submit", async (e) => {
       emergency1: clean(document.querySelector("#emergency1").value),
       emergency2: clean(document.querySelector("#emergency2").value),
       certificateGiven: document.querySelector("#certificateGiven").checked,
-      contributionStatus: "unpaid",
+      contributionStatus: document.querySelector("#contributionPaid").checked ? "paid_total" : "unpaid",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });

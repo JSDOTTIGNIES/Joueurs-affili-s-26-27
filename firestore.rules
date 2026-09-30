@@ -15,7 +15,7 @@ service cloud.firestore {
           "emergency1","emergency2","certificateGiven",
           "contributionStatus","createdAt","updatedAt"
         ])
-        && request.resource.data.contributionStatus == "unpaid";
+        && request.resource.data.contributionStatus in ["unpaid", "paid_total"];
 
       allow read, update, delete: if isAdmin();
     }
