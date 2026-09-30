@@ -116,3 +116,7 @@ Le mot de passe Firebase de ce compte doit être exactement le code administrate
 `JS7711`
 
 Si le mot de passe Firebase de cet utilisateur est différent, l'accès admin ne fonctionnera pas.
+
+
+## Identité visuelle
+Le logo officiel `logo-js-dottignies.png` est inclus et intégré dans l'interface, avec un fond sombre inspiré d'une ambiance basket.
