@@ -30,12 +30,18 @@ $("#editTeam").innerHTML = teamOptions;
 
 $("#loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  $("#loginStatus").className = "status";
   $("#loginStatus").textContent = "";
+
+  const code = $("#adminCode").value.trim();
+
   try {
-    await signInWithEmailAndPassword(auth, $("#adminEmail").value.trim(), $("#adminPassword").value);
+    await signInWithEmailAndPassword(auth, ADMIN_EMAIL, code);
+    $("#adminCode").value = "";
   } catch (err) {
+    console.error("Erreur connexion admin :", err);
     $("#loginStatus").className = "status error";
-    $("#loginStatus").textContent = "Connexion impossible. Vérifie l’e-mail et le mot de passe.";
+    $("#loginStatus").textContent = "Code administrateur incorrect.";
   }
 });
 $("#logoutBtn").addEventListener("click", () => signOut(auth));
