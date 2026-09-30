@@ -122,3 +122,5 @@ Si le mot de passe Firebase de cet utilisateur est différent, l'accès admin ne
 Le logo officiel `logo-js-dottignies.png` est inclus et intégré dans l'interface, avec un fond sombre inspiré d'une ambiance basket.
 
 - Le formulaire joueur comprend désormais une case « Cotisation payée ». Cochée = cotisation totale payée ; non cochée = non réglée.
+
+- Le formulaire joueur permet maintenant de choisir le statut de cotisation : non payée, partiellement payée ou totalement payée.

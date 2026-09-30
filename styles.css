@@ -440,3 +440,10 @@ dialog::backdrop{background:rgba(0,0,0,.82)}
   .card{padding:19px}
   .card::before{margin:-19px 0 17px -19px}
 }
+
+.contribution-field{
+  margin-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
