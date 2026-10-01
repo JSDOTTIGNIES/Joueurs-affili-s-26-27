@@ -33,16 +33,6 @@
             <input id="fullName" type="text" autocomplete="name" required>
           </label>
 
-
-          <label class="full photo-field">Photo du joueur
-            <input id="playerPhoto" type="file" accept="image/jpeg,image/png,image/webp">
-            <small>JPG, PNG ou WEBP — 5 Mo maximum.</small>
-            <div id="photoPreviewWrap" class="photo-preview-wrap hidden">
-              <img id="photoPreview" class="photo-preview" alt="Aperçu de la photo du joueur">
-              <button id="removePhoto" class="mini" type="button">Retirer la photo</button>
-            </div>
-          </label>
-
           <label class="full">Adresse
             <input id="address" type="text" autocomplete="street-address" required>
           </label>
@@ -60,7 +50,7 @@
           </label>
 
           <label>Téléphone d'urgence 2
-            <input id="emergency2" type="tel">
+            <input id="emergency2" type="tel" required>
           </label>
         </div>
 
@@ -69,21 +59,15 @@
             <input id="certificateGiven" type="checkbox">
             <span>Certificat médical remis au coach</span>
           </label>
-
-          <label class="certificate-upload-field">
-            <span>Photo / fichier du certificat médical</span>
-            <input id="certificateFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
-            <small>Facultatif si le certificat a déjà été remis au coach. JPG, PNG, WEBP ou PDF — 10 Mo maximum.</small>
-
-            <div id="certificatePreviewWrap" class="certificate-preview-wrap hidden">
-              <img id="certificatePreview" class="certificate-preview hidden" alt="Aperçu du certificat">
-              <div id="certificatePdfPreview" class="certificate-pdf-preview hidden">PDF sélectionné</div>
-              <button id="removeCertificate" class="mini" type="button">Retirer le fichier</button>
-            </div>
+          <label class="contribution-field">
+            <span>Statut de la cotisation</span>
+            <select id="contributionStatus" required>
+              <option value="unpaid">Non payée</option>
+              <option value="paid_partial">Partiellement payée</option>
+              <option value="paid_total">Totalement payée</option>
+            </select>
           </label>
-        </div>
-
-        <label class="check-row consent">
+        </div><label class="check-row consent">
           <input id="consent" type="checkbox" required>
           <span>Je confirme que les informations encodées sont correctes et peuvent être utilisées par la JS Dottignies pour la gestion administrative du club.</span>
         </label>
