@@ -60,7 +60,7 @@
           </label>
 
           <label>Téléphone d'urgence 2
-            <input id="emergency2" type="tel" required>
+            <input id="emergency2" type="tel">
           </label>
         </div>
 
@@ -69,15 +69,21 @@
             <input id="certificateGiven" type="checkbox">
             <span>Certificat médical remis au coach</span>
           </label>
-          <label class="contribution-field">
-            <span>Statut de la cotisation</span>
-            <select id="contributionStatus" required>
-              <option value="unpaid">Non payée</option>
-              <option value="paid_partial">Partiellement payée</option>
-              <option value="paid_total">Totalement payée</option>
-            </select>
+
+          <label class="certificate-upload-field">
+            <span>Photo / fichier du certificat médical</span>
+            <input id="certificateFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
+            <small>Facultatif si le certificat a déjà été remis au coach. JPG, PNG, WEBP ou PDF — 10 Mo maximum.</small>
+
+            <div id="certificatePreviewWrap" class="certificate-preview-wrap hidden">
+              <img id="certificatePreview" class="certificate-preview hidden" alt="Aperçu du certificat">
+              <div id="certificatePdfPreview" class="certificate-pdf-preview hidden">PDF sélectionné</div>
+              <button id="removeCertificate" class="mini" type="button">Retirer le fichier</button>
+            </div>
           </label>
-        </div><label class="check-row consent">
+        </div>
+
+        <label class="check-row consent">
           <input id="consent" type="checkbox" required>
           <span>Je confirme que les informations encodées sont correctes et peuvent être utilisées par la JS Dottignies pour la gestion administrative du club.</span>
         </label>

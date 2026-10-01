@@ -82,9 +82,17 @@ function paymentLabel(v){
        : '<span class="badge">Non réglée</span>';
 }
 function certLabel(p){
-  return p.certificateGiven
+  const status = p.certificateGiven
     ? '<span class="badge ok">Remis au coach</span>'
     : '<span class="badge warn">Non remis</span>';
+
+  if (!p.certificateFileUrl) return status;
+
+  const fileLabel = p.certificateResourceType === "raw"
+    ? "Voir le PDF"
+    : "Voir le certificat";
+
+  return `${status}<br><a class="file-link" href="${esc(p.certificateFileUrl)}" target="_blank" rel="noopener">${fileLabel}</a>`;
 }
 
 function photoCell(p){
@@ -198,6 +206,8 @@ $("#exportBtn").addEventListener("click", () => {
     "Téléphone urgence 1": p.emergency1 || "",
     "Téléphone urgence 2": p.emergency2 || "",
     "Certificat médical": p.certificateGiven ? "Remis au coach" : "Non remis",
+    "Fichier certificat": p.certificateOriginalName || "",
+    "Lien certificat": p.certificateFileUrl || "",
     "Cotisation": p.contributionStatus === "paid_total" ? "Totale"
                   : p.contributionStatus === "paid_partial" ? "Partielle" : "Non réglée",
     "Date réception": fmtDate(p.createdAt)
