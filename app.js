@@ -132,8 +132,11 @@ async function uploadCertificate(file) {
   formData.append("file", file);
   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
 
-  // For PDFs, use raw upload endpoint. Images use image endpoint.
-  const resourceType = file.type === "application/pdf" ? "raw" : "image";
+  // Important: PDFs are also uploaded through the "image" endpoint.
+  // Cloudinary supports PDFs as image assets and delivers them more reliably
+  // than raw assets for this use case.
+  const resourceType = "image";
+
   const response = await fetch(
     `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
     { method: "POST", body: formData }
@@ -146,6 +149,7 @@ async function uploadCertificate(file) {
   }
 
   const result = await response.json();
+
   return {
     certificateFileUrl: result.secure_url || "",
     certificatePublicId: result.public_id || "",

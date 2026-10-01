@@ -139,3 +139,5 @@ Le lien du certificat est stocké dans Firestore et visible dans l'administratio
 - L'adresse joueur est désormais séparée en Adresse, Code postal et Ville.
 
 - Les champs obligatoires sont signalés par une astérisque. Seul « Téléphone d'urgence 2 » est facultatif.
+
+- Correction Cloudinary : les certificats PDF sont désormais envoyés via le endpoint `image/upload` au lieu de `raw/upload`, afin d'éviter les erreurs d'accès 401 lors de l'ouverture.
