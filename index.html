@@ -33,6 +33,16 @@
             <input id="fullName" type="text" autocomplete="name" required>
           </label>
 
+
+          <label class="full photo-field">Photo du joueur
+            <input id="playerPhoto" type="file" accept="image/jpeg,image/png,image/webp">
+            <small>JPG, PNG ou WEBP — 5 Mo maximum.</small>
+            <div id="photoPreviewWrap" class="photo-preview-wrap hidden">
+              <img id="photoPreview" class="photo-preview" alt="Aperçu de la photo du joueur">
+              <button id="removePhoto" class="mini" type="button">Retirer la photo</button>
+            </div>
+          </label>
+
           <label class="full">Adresse
             <input id="address" type="text" autocomplete="street-address" required>
           </label>

@@ -86,6 +86,14 @@ function certLabel(p){
     ? '<span class="badge ok">Remis au coach</span>'
     : '<span class="badge warn">Non remis</span>';
 }
+
+function photoCell(p){
+  if (!p.photoUrl) return '<span class="muted">—</span>';
+  return `<a href="${esc(p.photoUrl)}" target="_blank" rel="noopener">
+    <img class="admin-player-photo" src="${esc(p.photoUrl)}" alt="Photo joueur">
+  </a>`;
+}
+
 function getFiltered(){
   const tf = teamFilter.value;
   const s = search.value.trim().toLowerCase();
@@ -99,6 +107,7 @@ function render(){
   counter.textContent = `${list.length} fiche(s) affichée(s) sur ${players.length}`;
   tbody.innerHTML = list.map(p => `
     <tr>
+      <td>${photoCell(p)}</td>
       <td>${esc(p.team)}</td>
       <td><strong>${esc(p.fullName)}</strong></td>
       <td>${esc(p.address)}</td>
@@ -180,6 +189,7 @@ async function removePlayer(id){
 $("#exportBtn").addEventListener("click", () => {
   const list = getFiltered();
   const rows = list.map(p => ({
+    "Photo": p.photoUrl || "",
     "Équipe": p.team || "",
     "Nom et prénom": p.fullName || "",
     "Adresse": p.address || "",
