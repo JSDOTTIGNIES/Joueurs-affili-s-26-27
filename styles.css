@@ -514,3 +514,15 @@ dialog::backdrop{background:rgba(0,0,0,.82)}
   font-weight:650;
   font-size:.82em;
 }
+
+.admin-certificate-upload{
+  display:grid;
+  gap:10px;
+  padding-top:4px;
+}
+.admin-certificate-upload input[type="file"]{
+  margin-top:4px;
+}
+#currentCertificateInfo{
+  font-size:.88rem;
+}

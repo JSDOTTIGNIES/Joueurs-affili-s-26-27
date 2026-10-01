@@ -141,3 +141,8 @@ Le lien du certificat est stocké dans Firestore et visible dans l'administratio
 - Les champs obligatoires sont signalés par une astérisque. Seul « Téléphone d'urgence 2 » est facultatif.
 
 - Correction Cloudinary : les certificats PDF sont désormais envoyés via le endpoint `image/upload` au lieu de `raw/upload`, afin d'éviter les erreurs d'accès 401 lors de l'ouverture.
+
+
+## Ajout manuel du certificat depuis l'admin
+Dans la fenêtre « Modifier la fiche », l'administrateur peut désormais ajouter ou remplacer un certificat médical.
+Le fichier est envoyé sur Cloudinary puis les champs du certificat sont mis à jour dans Firestore.

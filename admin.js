@@ -12,6 +12,8 @@ import { TEAMS } from "./teams.js";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const CLOUDINARY_CLOUD_NAME = "cszeq2is";
+const CLOUDINARY_UPLOAD_PRESET = "jsdottignies_joueurs";
 
 const $ = s => document.querySelector(s);
 const loginCard = $("#loginCard");
@@ -68,6 +70,44 @@ onAuthStateChanged(auth, (user) => {
     alert("Impossible de charger les joueurs. Vérifie les règles Firestore.");
   });
 });
+
+
+async function uploadAdminCertificate(file) {
+  if (!file) return null;
+
+  const allowed = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+  if (!allowed.includes(file.type)) {
+    throw new Error("Format non autorisé. Utilise JPG, PNG, WEBP ou PDF.");
+  }
+
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error("Le certificat dépasse 10 Mo.");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+  const response = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+    { method: "POST", body: formData }
+  );
+
+  if (!response.ok) {
+    const details = await response.text();
+    console.error("Cloudinary admin certificate upload error:", details);
+    throw new Error("Impossible d’envoyer le certificat.");
+  }
+
+  const result = await response.json();
+
+  return {
+    certificateFileUrl: result.secure_url || "",
+    certificatePublicId: result.public_id || "",
+    certificateResourceType: "image",
+    certificateOriginalName: file.name || ""
+  };
+}
 
 function esc(v=""){
   return String(v).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -154,6 +194,10 @@ function openEdit(id){
   $("#editEmergency1").value = p.emergency1 || "";
   $("#editEmergency2").value = p.emergency2 || "";
   $("#editCertificateGiven").checked = !!p.certificateGiven;
+  $("#editCertificateFile").value = "";
+  $("#currentCertificateInfo").innerHTML = p.certificateFileUrl
+    ? `Certificat actuel : <a class="file-link" href="${esc(p.certificateFileUrl)}" target="_blank" rel="noopener">${esc(p.certificateOriginalName || "Voir le certificat")}</a>`
+    : "Aucun certificat joint.";
   $("#paidPartial").checked = p.contributionStatus === "paid_partial";
   $("#paidTotal").checked = p.contributionStatus === "paid_total";
   $("#editStatus").textContent = "";
@@ -169,7 +213,13 @@ $("#editForm").addEventListener("submit", async (e) => {
   const contributionStatus = $("#paidTotal").checked ? "paid_total"
       : $("#paidPartial").checked ? "paid_partial" : "unpaid";
   try {
-    await updateDoc(doc(db, "players", id), {
+    $("#editStatus").className = "status";
+    $("#editStatus").textContent = "Enregistrement en cours…";
+
+    const newCertificateFile = $("#editCertificateFile").files[0] || null;
+    const certificateUpload = await uploadAdminCertificate(newCertificateFile);
+
+    const updateData = {
       team: $("#editTeam").value,
       fullName: $("#editFullName").value.trim(),
       address: $("#editAddress").value.trim(),
@@ -182,12 +232,21 @@ $("#editForm").addEventListener("submit", async (e) => {
       certificateGiven: $("#editCertificateGiven").checked,
       contributionStatus,
       updatedAt: serverTimestamp()
-    });
+    };
+
+    if (certificateUpload) {
+      updateData.certificateFileUrl = certificateUpload.certificateFileUrl;
+      updateData.certificatePublicId = certificateUpload.certificatePublicId;
+      updateData.certificateResourceType = certificateUpload.certificateResourceType;
+      updateData.certificateOriginalName = certificateUpload.certificateOriginalName;
+    }
+
+    await updateDoc(doc(db, "players", id), updateData);
     dialog.close();
   } catch (err) {
     console.error(err);
     $("#editStatus").className = "status error";
-    $("#editStatus").textContent = "Impossible d’enregistrer les modifications.";
+    $("#editStatus").textContent = err?.message || "Impossible d’enregistrer les modifications.";
   }
 });
 
