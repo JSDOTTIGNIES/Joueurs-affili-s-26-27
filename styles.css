@@ -498,3 +498,19 @@ dialog::backdrop{background:rgba(0,0,0,.82)}
 .contribution-box label{
   margin:0;
 }
+
+.required-star{
+  color:var(--red2);
+  font-weight:950;
+}
+.required-note{
+  margin:4px 0 14px;
+  color:var(--muted);
+  font-size:.88rem;
+  font-weight:700;
+}
+.optional-label{
+  color:var(--muted);
+  font-weight:650;
+  font-size:.82em;
+}

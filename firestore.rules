@@ -11,10 +11,12 @@ service cloud.firestore {
     match /players/{playerId} {
       allow create: if
         request.resource.data.keys().hasAll([
-          "team","fullName","address","email","phone",
+          "team","fullName","address","postalCode","city","email","phone",
           "emergency1","emergency2","photoUrl","photoPublicId","certificateFileUrl","certificatePublicId","certificateResourceType","certificateOriginalName","certificateGiven",
           "contributionStatus","createdAt","updatedAt"
         ])
+        && request.resource.data.postalCode is string
+        && request.resource.data.city is string
         && request.resource.data.photoUrl is string
         && request.resource.data.photoPublicId is string
         && request.resource.data.certificateFileUrl is string

@@ -119,6 +119,8 @@ function render(){
       <td>${esc(p.team)}</td>
       <td><strong>${esc(p.fullName)}</strong></td>
       <td>${esc(p.address)}</td>
+      <td>${esc(p.postalCode || "")}</td>
+      <td>${esc(p.city || "")}</td>
       <td>${esc(p.email)}</td>
       <td>${esc(p.phone)}</td>
       <td>${esc(p.emergency1)}</td>
@@ -147,6 +149,8 @@ function openEdit(id){
   $("#editTeam").value = p.team || "";
   $("#editFullName").value = p.fullName || "";
   $("#editAddress").value = p.address || "";
+  $("#editPostalCode").value = p.postalCode || "";
+  $("#editCity").value = p.city || "";
   $("#editEmail").value = p.email || "";
   $("#editPhone").value = p.phone || "";
   $("#editEmergency1").value = p.emergency1 || "";
@@ -171,6 +175,8 @@ $("#editForm").addEventListener("submit", async (e) => {
       team: $("#editTeam").value,
       fullName: $("#editFullName").value.trim(),
       address: $("#editAddress").value.trim(),
+      postalCode: $("#editPostalCode").value.trim(),
+      city: $("#editCity").value.trim(),
       email: $("#editEmail").value.trim().toLowerCase(),
       phone: $("#editPhone").value.trim(),
       emergency1: $("#editEmergency1").value.trim(),
@@ -201,6 +207,8 @@ $("#exportBtn").addEventListener("click", () => {
     "Équipe": p.team || "",
     "Nom et prénom": p.fullName || "",
     "Adresse": p.address || "",
+    "Code postal": p.postalCode || "",
+    "Ville": p.city || "",
     "E-mail": p.email || "",
     "Téléphone": p.phone || "",
     "Téléphone urgence 1": p.emergency1 || "",

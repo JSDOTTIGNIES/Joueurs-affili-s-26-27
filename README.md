@@ -135,3 +135,7 @@ Le fichier est facultatif si le certificat a déjà été remis au coach.
 Le lien du certificat est stocké dans Firestore et visible dans l'administration.
 
 - Le champ « Téléphone d'urgence 2 » est facultatif.
+
+- L'adresse joueur est désormais séparée en Adresse, Code postal et Ville.
+
+- Les champs obligatoires sont signalés par une astérisque. Seul « Téléphone d'urgence 2 » est facultatif.

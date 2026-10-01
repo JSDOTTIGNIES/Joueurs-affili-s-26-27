@@ -25,17 +25,17 @@
     <section class="card">
       <form id="playerForm">
         <div class="grid">
-          <label>Équipe
+          <label>Équipe <span class="required-star">*</span>
             <select id="team" required></select>
           </label>
 
-          <label>Nom et prénom
+          <label>Nom et prénom <span class="required-star">*</span>
             <input id="fullName" type="text" autocomplete="name" required>
           </label>
 
 
-          <label class="full photo-field">Photo du joueur
-            <input id="playerPhoto" type="file" accept="image/jpeg,image/png,image/webp">
+          <label class="full photo-field">Photo du joueur <span class="required-star">*</span>
+            <input id="playerPhoto" type="file" required accept="image/jpeg,image/png,image/webp">
             <small>JPG, PNG ou WEBP — 5 Mo maximum.</small>
             <div id="photoPreviewWrap" class="photo-preview-wrap hidden">
               <img id="photoPreview" class="photo-preview" alt="Aperçu de la photo du joueur">
@@ -43,23 +43,31 @@
             </div>
           </label>
 
-          <label class="full">Adresse
+          <label class="full">Adresse <span class="required-star">*</span>
             <input id="address" type="text" autocomplete="street-address" required>
           </label>
 
-          <label>E-mail
+          <label>Code postal <span class="required-star">*</span>
+            <input id="postalCode" type="text" inputmode="numeric" autocomplete="postal-code" required>
+          </label>
+
+          <label>Ville <span class="required-star">*</span>
+            <input id="city" type="text" autocomplete="address-level2" required>
+          </label>
+
+          <label>E-mail <span class="required-star">*</span>
             <input id="email" type="email" autocomplete="email" required>
           </label>
 
-          <label>N° de téléphone
+          <label>N° de téléphone <span class="required-star">*</span>
             <input id="phone" type="tel" autocomplete="tel" required>
           </label>
 
-          <label>Téléphone d'urgence 1
+          <label>Téléphone d'urgence 1 <span class="required-star">*</span>
             <input id="emergency1" type="tel" required>
           </label>
 
-          <label>Téléphone d'urgence 2
+          <label>Téléphone d'urgence 2 <span class="optional-label">(facultatif)</span>
             <input id="emergency2" type="tel">
           </label>
         </div>
@@ -71,9 +79,9 @@
           </label>
 
           <label class="certificate-upload-field">
-            <span>Photo / fichier du certificat médical</span>
+            <span>Certificat médical <span class="required-star">*</span></span>
             <input id="certificateFile" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
-            <small>Facultatif si le certificat a déjà été remis au coach. JPG, PNG, WEBP ou PDF — 10 Mo maximum.</small>
+            <small>Obligatoire uniquement si le certificat n’a pas été remis au coach. JPG, PNG, WEBP ou PDF — 10 Mo maximum.</small>
 
             <div id="certificatePreviewWrap" class="certificate-preview-wrap hidden">
               <img id="certificatePreview" class="certificate-preview hidden" alt="Aperçu du certificat">
@@ -85,7 +93,7 @@
 
         <div class="contribution-box">
           <label>
-            <span>Statut de la cotisation</span>
+            <span>Statut de la cotisation <span class="required-star">*</span></span>
             <select id="contributionStatus" required>
               <option value="unpaid">Non payée</option>
               <option value="paid_partial">Partiellement payée</option>
@@ -96,9 +104,10 @@
 
         <label class="check-row consent">
           <input id="consent" type="checkbox" required>
-          <span>Je confirme que les informations encodées sont correctes et peuvent être utilisées par la JS Dottignies pour la gestion administrative du club.</span>
+          <span>Je confirme que les informations encodées sont correctes et peuvent être utilisées par la JS Dottignies pour la gestion administrative du club. <span class="required-star">*</span></span>
         </label>
 
+        <div class="required-note"><span class="required-star">*</span> Champs obligatoires</div>
         <button id="submitBtn" class="primary" type="submit">Envoyer mes informations</button>
         <div id="status" class="status" role="status"></div>
       </form>

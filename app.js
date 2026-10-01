@@ -161,6 +161,13 @@ form.addEventListener("submit", async (e) => {
   status.className = "status";
   status.textContent = "";
   try {
+    const certificateGiven = document.querySelector("#certificateGiven").checked;
+    const selectedCertificate = certificateInput.files[0] || null;
+
+    if (!certificateGiven && !selectedCertificate) {
+      throw new Error("Merci de cocher « Certificat médical remis au coach » ou de joindre le certificat médical.");
+    }
+
     const { photoUrl, photoPublicId } = await uploadPlayerPhoto(photoInput.files[0] || null);
     const {
       certificateFileUrl,
@@ -173,6 +180,8 @@ form.addEventListener("submit", async (e) => {
       team: team.value,
       fullName: clean(document.querySelector("#fullName").value),
       address: clean(document.querySelector("#address").value),
+      postalCode: clean(document.querySelector("#postalCode").value),
+      city: clean(document.querySelector("#city").value),
       email: clean(document.querySelector("#email").value).toLowerCase(),
       phone: clean(document.querySelector("#phone").value),
       emergency1: clean(document.querySelector("#emergency1").value),
@@ -183,7 +192,7 @@ form.addEventListener("submit", async (e) => {
       certificatePublicId,
       certificateResourceType,
       certificateOriginalName,
-      certificateGiven: document.querySelector("#certificateGiven").checked,
+      certificateGiven,
       contributionStatus: document.querySelector("#contributionStatus")?.value || "unpaid",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
