@@ -124,3 +124,14 @@ Le logo officiel `logo-js-dottignies.png` est inclus et intégré dans l'interfa
 - Le formulaire joueur comprend désormais une case « Cotisation payée ». Cochée = cotisation totale payée ; non cochée = non réglée.
 
 - Le formulaire joueur permet maintenant de choisir le statut de cotisation : non payée, partiellement payée ou totalement payée.
+
+
+## Photos joueurs via Cloudinary
+Cloud name: `cszeq2is`\nPreset unsigned: `jsdottignies_joueurs`\n
+
+## Certificat médical via Cloudinary
+Le formulaire accepte désormais une photo du certificat (JPG/PNG/WEBP) ou un PDF, 10 Mo maximum.
+Le fichier est facultatif si le certificat a déjà été remis au coach.
+Le lien du certificat est stocké dans Firestore et visible dans l'administration.
+
+- Le champ « Téléphone d'urgence 2 » est facultatif.
