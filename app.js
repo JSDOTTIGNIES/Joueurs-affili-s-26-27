@@ -31,10 +31,6 @@ photoInput.addEventListener("change", () => {
   const file = photoInput.files[0];
   if (!file) {
     photoPreviewWrap.classList.add("hidden");
-    certificatePreview.removeAttribute("src");
-    certificatePreview.classList.add("hidden");
-    certificatePdfPreview.classList.add("hidden");
-    certificatePreviewWrap.classList.add("hidden");
     photoPreview.removeAttribute("src");
     return;
   }
@@ -188,19 +184,23 @@ form.addEventListener("submit", async (e) => {
       certificateResourceType,
       certificateOriginalName,
       certificateGiven: document.querySelector("#certificateGiven").checked,
-      contributionStatus: document.querySelector("#contributionStatus").value,
+      contributionStatus: document.querySelector("#contributionStatus")?.value || "unpaid",
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
     form.reset();
     photoPreview.removeAttribute("src");
     photoPreviewWrap.classList.add("hidden");
+    certificatePreview.removeAttribute("src");
+    certificatePreview.classList.add("hidden");
+    certificatePdfPreview.classList.add("hidden");
+    certificatePreviewWrap.classList.add("hidden");
     status.className = "status success";
     status.textContent = "Merci, les informations ont bien été envoyées.";
   } catch (err) {
     console.error(err);
     status.className = "status error";
-    status.textContent = "Une erreur est survenue lors de l’envoi.";
+    status.textContent = err?.message || "Une erreur est survenue lors de l’envoi.";
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = "Envoyer mes informations";
