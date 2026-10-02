@@ -305,7 +305,7 @@ $("#exportBtn").addEventListener("click", () => {
     "Téléphone": p.phone || "",
     "Téléphone urgence 1": p.emergency1 || "",
     "Téléphone urgence 2": p.emergency2 || "",
-    "Délégué": p.isDelegate ? "Oui" : "Non",
+    "Délégué ou coach": p.isDelegate ? "Oui" : "Non",
     "Certificat médical": p.isDelegate ? "" : (p.certificateGiven ? "Remis au coach" : "Non remis"),
     "Fichier certificat": p.isDelegate ? "" : (p.certificateOriginalName || ""),
     "Lien certificat": p.isDelegate ? "" : (p.certificateFileUrl || ""),
