@@ -33,26 +33,32 @@ const clean = v => String(v || "").trim();
 
 
 
+
 function updateDelegateState() {
-  const isDelegate = delegateInput.checked;
-  certificateGivenInput.disabled = isDelegate;
-  certificateInput.disabled = isDelegate;
-  contributionStatusInput.disabled = isDelegate;
-  medicalBox.classList.toggle("disabled-section", isDelegate);
-  contributionBox.classList.toggle("disabled-section", isDelegate);
+  const isDelegate = !!delegateInput?.checked;
+
+  if (certificateGivenInput) certificateGivenInput.disabled = isDelegate;
+  if (certificateInput) certificateInput.disabled = isDelegate;
+  if (contributionStatusInput) contributionStatusInput.disabled = isDelegate;
+
+  if (medicalBox) medicalBox.classList.toggle("disabled-section", isDelegate);
+  if (contributionBox) contributionBox.classList.toggle("disabled-section", isDelegate);
 
   if (isDelegate) {
-    certificateGivenInput.checked = false;
-    certificateInput.value = "";
-    certificatePreview.removeAttribute("src");
-    certificatePreview.classList.add("hidden");
-    certificatePdfPreview.classList.add("hidden");
-    certificatePreviewWrap.classList.add("hidden");
-    contributionStatusInput.value = "unpaid";
+    if (certificateGivenInput) certificateGivenInput.checked = false;
+    if (certificateInput) certificateInput.value = "";
+    if (certificatePreview) certificatePreview.removeAttribute("src");
+    if (certificatePreview) certificatePreview.classList.add("hidden");
+    if (certificatePdfPreview) certificatePdfPreview.classList.add("hidden");
+    if (certificatePreviewWrap) certificatePreviewWrap.classList.add("hidden");
+    if (contributionStatusInput) contributionStatusInput.value = "unpaid";
   }
 }
-delegateInput.addEventListener("change", updateDelegateState);
-updateDelegateState();
+
+if (delegateInput) {
+  delegateInput.addEventListener("change", updateDelegateState);
+  updateDelegateState();
+}
 
 photoInput.addEventListener("change", () => {
   const file = photoInput.files[0];
@@ -238,6 +244,7 @@ form.addEventListener("submit", async (e) => {
       updatedAt: serverTimestamp()
     });
     form.reset();
+    updateDelegateState();
     updateDelegateState();
     photoPreview.removeAttribute("src");
     photoPreviewWrap.classList.add("hidden");

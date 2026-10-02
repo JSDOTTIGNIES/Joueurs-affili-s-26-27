@@ -124,11 +124,17 @@ function paymentLabel(v, isDelegate=false){
 }
 function certLabel(p){
   if (p.isDelegate) return "";
+
   const status = p.certificateGiven
     ? '<span class="badge ok">Remis au coach</span>'
     : '<span class="badge warn">Non remis</span>';
+
   if (!p.certificateFileUrl) return status;
-  const fileLabel = p.certificateOriginalName?.toLowerCase().endsWith(".pdf") ? "Voir le PDF" : "Voir le certificat";
+
+  const fileLabel = p.certificateOriginalName?.toLowerCase().endsWith(".pdf")
+    ? "Voir le PDF"
+    : "Voir le certificat";
+
   return `${status}<br><a class="file-link" href="${esc(p.certificateFileUrl)}" target="_blank" rel="noopener">${fileLabel}</a>`;
 }
 

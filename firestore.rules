@@ -29,11 +29,17 @@ service cloud.firestore {
             && request.resource.data.contributionStatus == "")
           ||
           (request.resource.data.isDelegate == false
+            && (
+          (request.resource.data.isDelegate == true
+            && request.resource.data.contributionStatus == "")
+          ||
+          (request.resource.data.isDelegate == false
             && request.resource.data.contributionStatus in [
               "unpaid",
               "paid_partial",
               "paid_total"
             ])
+        ))
         );
 
       allow read, update, delete: if isAdmin();
