@@ -63,6 +63,7 @@
               <th>Téléphone</th>
               <th>Urgence 1</th>
               <th>Urgence 2</th>
+              <th>Délégué</th>
               <th>Certificat</th>
               <th>Cotisation</th>
               <th>Reçu le</th>
@@ -91,7 +92,14 @@
         <label>Urgence 2<input id="editEmergency2" required></label>
       </div>
 
-      <div class="medical-box">
+      <div class="delegate-box">
+        <label class="check-row">
+          <input id="editIsDelegate" type="checkbox">
+          <span>Délégué</span>
+        </label>
+      </div>
+
+      <div class="medical-box" id="editMedicalBox">
         <label class="check-row">
           <input id="editCertificateGiven" type="checkbox">
           <span>Certificat médical remis</span>
@@ -107,7 +115,7 @@
           <small>JPG, PNG, WEBP ou PDF — 10 Mo maximum.</small>
         </div>
 
-        <div>
+        <div id="editContributionBox">
           <strong>Cotisation</strong>
           <div class="payment-checks">
             <label class="check-row"><input id="paidPartial" type="checkbox"><span>Partielle</span></label>

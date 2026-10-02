@@ -12,7 +12,7 @@ service cloud.firestore {
       allow create: if
         request.resource.data.keys().hasAll([
           "team","fullName","address","postalCode","city","email","phone",
-          "emergency1","emergency2","photoUrl","photoPublicId","certificateFileUrl","certificatePublicId","certificateResourceType","certificateOriginalName","certificateGiven",
+          "emergency1","emergency2","photoUrl","photoPublicId","certificateFileUrl","certificatePublicId","certificateResourceType","certificateOriginalName","certificateGiven","isDelegate",
           "contributionStatus","createdAt","updatedAt"
         ])
         && request.resource.data.postalCode is string
@@ -23,11 +23,18 @@ service cloud.firestore {
         && request.resource.data.certificatePublicId is string
         && request.resource.data.certificateResourceType is string
         && request.resource.data.certificateOriginalName is string
-        && request.resource.data.contributionStatus in [
-          "unpaid",
-          "paid_partial",
-          "paid_total"
-        ];
+        && request.resource.data.isDelegate is bool
+        && (
+          (request.resource.data.isDelegate == true
+            && request.resource.data.contributionStatus == "")
+          ||
+          (request.resource.data.isDelegate == false
+            && request.resource.data.contributionStatus in [
+              "unpaid",
+              "paid_partial",
+              "paid_total"
+            ])
+        );
 
       allow read, update, delete: if isAdmin();
     }

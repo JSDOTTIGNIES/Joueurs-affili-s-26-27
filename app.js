@@ -9,6 +9,11 @@ const team = document.querySelector("#team");
 const form = document.querySelector("#playerForm");
 const status = document.querySelector("#status");
 const submitBtn = document.querySelector("#submitBtn");
+const delegateInput = document.querySelector("#isDelegate");
+const medicalBox = document.querySelector("#medicalBox");
+const contributionBox = document.querySelector("#contributionBox");
+const certificateGivenInput = document.querySelector("#certificateGiven");
+const contributionStatusInput = document.querySelector("#contributionStatus");
 const photoInput = document.querySelector("#playerPhoto");
 const photoPreviewWrap = document.querySelector("#photoPreviewWrap");
 const photoPreview = document.querySelector("#photoPreview");
@@ -26,6 +31,28 @@ team.innerHTML = '<option value="">Choisir une équipe</option>' + TEAMS.map(t =
 
 const clean = v => String(v || "").trim();
 
+
+
+function updateDelegateState() {
+  const isDelegate = delegateInput.checked;
+  certificateGivenInput.disabled = isDelegate;
+  certificateInput.disabled = isDelegate;
+  contributionStatusInput.disabled = isDelegate;
+  medicalBox.classList.toggle("disabled-section", isDelegate);
+  contributionBox.classList.toggle("disabled-section", isDelegate);
+
+  if (isDelegate) {
+    certificateGivenInput.checked = false;
+    certificateInput.value = "";
+    certificatePreview.removeAttribute("src");
+    certificatePreview.classList.add("hidden");
+    certificatePdfPreview.classList.add("hidden");
+    certificatePreviewWrap.classList.add("hidden");
+    contributionStatusInput.value = "unpaid";
+  }
+}
+delegateInput.addEventListener("change", updateDelegateState);
+updateDelegateState();
 
 photoInput.addEventListener("change", () => {
   const file = photoInput.files[0];
@@ -165,20 +192,28 @@ form.addEventListener("submit", async (e) => {
   status.className = "status";
   status.textContent = "";
   try {
-    const certificateGiven = document.querySelector("#certificateGiven").checked;
-    const selectedCertificate = certificateInput.files[0] || null;
+    const isDelegate = delegateInput.checked;
+    const certificateGiven = isDelegate ? false : certificateGivenInput.checked;
+    const selectedCertificate = isDelegate ? null : (certificateInput.files[0] || null);
 
-    if (!certificateGiven && !selectedCertificate) {
+    if (!isDelegate && !certificateGiven && !selectedCertificate) {
       throw new Error("Merci de cocher « Certificat médical remis au coach » ou de joindre le certificat médical.");
     }
 
     const { photoUrl, photoPublicId } = await uploadPlayerPhoto(photoInput.files[0] || null);
-    const {
-      certificateFileUrl,
-      certificatePublicId,
-      certificateResourceType,
-      certificateOriginalName
-    } = await uploadCertificate(certificateInput.files[0] || null);
+    let certificateFileUrl = "";
+    let certificatePublicId = "";
+    let certificateResourceType = "";
+    let certificateOriginalName = "";
+
+    if (!isDelegate) {
+      ({
+        certificateFileUrl,
+        certificatePublicId,
+        certificateResourceType,
+        certificateOriginalName
+      } = await uploadCertificate(selectedCertificate));
+    }
 
     await addDoc(collection(db, "players"), {
       team: team.value,
@@ -197,11 +232,13 @@ form.addEventListener("submit", async (e) => {
       certificateResourceType,
       certificateOriginalName,
       certificateGiven,
-      contributionStatus: document.querySelector("#contributionStatus")?.value || "unpaid",
+      isDelegate,
+      contributionStatus: isDelegate ? "" : (document.querySelector("#contributionStatus")?.value || "unpaid"),
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
     form.reset();
+    updateDelegateState();
     photoPreview.removeAttribute("src");
     photoPreviewWrap.classList.add("hidden");
     certificatePreview.removeAttribute("src");

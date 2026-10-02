@@ -72,7 +72,15 @@
           </label>
         </div>
 
-        <div class="medical-box">
+        <div class="delegate-box">
+          <label class="check-row">
+            <input id="isDelegate" type="checkbox">
+            <span>Délégué</span>
+          </label>
+          <small>À cocher pour une personne enregistrée comme délégué et non comme joueur.</small>
+        </div>
+
+        <div class="medical-box" id="medicalBox">
           <label class="check-row">
             <input id="certificateGiven" type="checkbox">
             <span>Certificat médical remis au coach</span>
@@ -91,7 +99,7 @@
           </label>
         </div>
 
-        <div class="contribution-box">
+        <div class="contribution-box" id="contributionBox">
           <label>
             <span>Statut de la cotisation <span class="required-star">*</span></span>
             <select id="contributionStatus" required>

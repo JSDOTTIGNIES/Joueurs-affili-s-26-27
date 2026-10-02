@@ -526,3 +526,16 @@ dialog::backdrop{background:rgba(0,0,0,.82)}
 #currentCertificateInfo{
   font-size:.88rem;
 }
+
+.delegate-box{
+  margin:18px 0;
+  padding:16px 18px;
+  border:1px solid #34363b;
+  border-radius:15px;
+  background:linear-gradient(135deg,rgba(255,255,255,.025),rgba(226,29,47,.05));
+}
+.disabled-section{
+  opacity:.42;
+  filter:grayscale(.25);
+  pointer-events:none;
+}

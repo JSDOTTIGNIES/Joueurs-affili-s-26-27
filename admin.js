@@ -116,20 +116,19 @@ function fmtDate(ts){
   if (!ts?.toDate) return "";
   return ts.toDate().toLocaleString("fr-BE");
 }
-function paymentLabel(v){
+function paymentLabel(v, isDelegate=false){
+  if (isDelegate) return "";
   return v === "paid_total" ? '<span class="badge ok">Totale</span>'
        : v === "paid_partial" ? '<span class="badge warn">Partielle</span>'
        : '<span class="badge">Non réglée</span>';
 }
 function certLabel(p){
+  if (p.isDelegate) return "";
   const status = p.certificateGiven
     ? '<span class="badge ok">Remis au coach</span>'
     : '<span class="badge warn">Non remis</span>';
-
   if (!p.certificateFileUrl) return status;
-
   const fileLabel = p.certificateOriginalName?.toLowerCase().endsWith(".pdf") ? "Voir le PDF" : "Voir le certificat";
-
   return `${status}<br><a class="file-link" href="${esc(p.certificateFileUrl)}" target="_blank" rel="noopener">${fileLabel}</a>`;
 }
 
@@ -163,8 +162,9 @@ function render(){
       <td>${esc(p.phone)}</td>
       <td>${esc(p.emergency1)}</td>
       <td>${esc(p.emergency2)}</td>
+      <td>${p.isDelegate ? '<span class="badge ok">Oui</span>' : ""}</td>
       <td>${certLabel(p)}</td>
-      <td>${paymentLabel(p.contributionStatus)}</td>
+      <td>${paymentLabel(p.contributionStatus, !!p.isDelegate)}</td>
       <td>${esc(fmtDate(p.createdAt))}</td>
       <td>
         <div class="actions">
@@ -180,6 +180,25 @@ function render(){
 teamFilter.addEventListener("change", render);
 search.addEventListener("input", render);
 
+
+function updateEditDelegateState() {
+  const isDelegate = $("#editIsDelegate").checked;
+  $("#editCertificateGiven").disabled = isDelegate;
+  $("#editCertificateFile").disabled = isDelegate;
+  $("#paidPartial").disabled = isDelegate;
+  $("#paidTotal").disabled = isDelegate;
+  $("#editMedicalBox").classList.toggle("disabled-section", isDelegate);
+  $("#editContributionBox").classList.toggle("disabled-section", isDelegate);
+
+  if (isDelegate) {
+    $("#editCertificateGiven").checked = false;
+    $("#editCertificateFile").value = "";
+    $("#paidPartial").checked = false;
+    $("#paidTotal").checked = false;
+  }
+}
+$("#editIsDelegate").addEventListener("change", updateEditDelegateState);
+
 function openEdit(id){
   const p = players.find(x => x.id === id);
   if (!p) return;
@@ -193,6 +212,7 @@ function openEdit(id){
   $("#editPhone").value = p.phone || "";
   $("#editEmergency1").value = p.emergency1 || "";
   $("#editEmergency2").value = p.emergency2 || "";
+  $("#editIsDelegate").checked = !!p.isDelegate;
   $("#editCertificateGiven").checked = !!p.certificateGiven;
   $("#editCertificateFile").value = "";
   $("#currentCertificateInfo").innerHTML = p.certificateFileUrl
@@ -201,6 +221,7 @@ function openEdit(id){
   $("#paidPartial").checked = p.contributionStatus === "paid_partial";
   $("#paidTotal").checked = p.contributionStatus === "paid_total";
   $("#editStatus").textContent = "";
+  updateEditDelegateState();
   dialog.showModal();
 }
 $("#cancelEdit").addEventListener("click", () => dialog.close());
@@ -210,14 +231,16 @@ $("#paidTotal").addEventListener("change", e => { if (e.target.checked) $("#paid
 $("#editForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const id = $("#editId").value;
-  const contributionStatus = $("#paidTotal").checked ? "paid_total"
-      : $("#paidPartial").checked ? "paid_partial" : "unpaid";
+  const isDelegate = $("#editIsDelegate").checked;
+  const contributionStatus = isDelegate ? ""
+      : ($("#paidTotal").checked ? "paid_total"
+      : $("#paidPartial").checked ? "paid_partial" : "unpaid");
   try {
     $("#editStatus").className = "status";
     $("#editStatus").textContent = "Enregistrement en cours…";
 
-    const newCertificateFile = $("#editCertificateFile").files[0] || null;
-    const certificateUpload = await uploadAdminCertificate(newCertificateFile);
+    const newCertificateFile = isDelegate ? null : ($("#editCertificateFile").files[0] || null);
+    const certificateUpload = isDelegate ? null : await uploadAdminCertificate(newCertificateFile);
 
     const updateData = {
       team: $("#editTeam").value,
@@ -229,12 +252,18 @@ $("#editForm").addEventListener("submit", async (e) => {
       phone: $("#editPhone").value.trim(),
       emergency1: $("#editEmergency1").value.trim(),
       emergency2: $("#editEmergency2").value.trim(),
-      certificateGiven: $("#editCertificateGiven").checked,
+      isDelegate,
+      certificateGiven: isDelegate ? false : $("#editCertificateGiven").checked,
       contributionStatus,
       updatedAt: serverTimestamp()
     };
 
-    if (certificateUpload) {
+    if (isDelegate) {
+      updateData.certificateFileUrl = "";
+      updateData.certificatePublicId = "";
+      updateData.certificateResourceType = "";
+      updateData.certificateOriginalName = "";
+    } else if (certificateUpload) {
       updateData.certificateFileUrl = certificateUpload.certificateFileUrl;
       updateData.certificatePublicId = certificateUpload.certificatePublicId;
       updateData.certificateResourceType = certificateUpload.certificateResourceType;
@@ -270,11 +299,12 @@ $("#exportBtn").addEventListener("click", () => {
     "Téléphone": p.phone || "",
     "Téléphone urgence 1": p.emergency1 || "",
     "Téléphone urgence 2": p.emergency2 || "",
-    "Certificat médical": p.certificateGiven ? "Remis au coach" : "Non remis",
-    "Fichier certificat": p.certificateOriginalName || "",
-    "Lien certificat": p.certificateFileUrl || "",
-    "Cotisation": p.contributionStatus === "paid_total" ? "Totale"
-                  : p.contributionStatus === "paid_partial" ? "Partielle" : "Non réglée",
+    "Délégué": p.isDelegate ? "Oui" : "Non",
+    "Certificat médical": p.isDelegate ? "" : (p.certificateGiven ? "Remis au coach" : "Non remis"),
+    "Fichier certificat": p.isDelegate ? "" : (p.certificateOriginalName || ""),
+    "Lien certificat": p.isDelegate ? "" : (p.certificateFileUrl || ""),
+    "Cotisation": p.isDelegate ? "" : (p.contributionStatus === "paid_total" ? "Totale"
+                  : p.contributionStatus === "paid_partial" ? "Partielle" : "Non réglée"),
     "Date réception": fmtDate(p.createdAt)
   }));
 
