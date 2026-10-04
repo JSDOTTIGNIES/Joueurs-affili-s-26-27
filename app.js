@@ -227,6 +227,7 @@ form.addEventListener("submit", async (e) => {
       address: clean(document.querySelector("#address").value),
       postalCode: clean(document.querySelector("#postalCode").value),
       city: clean(document.querySelector("#city").value),
+      birthDate: clean(document.querySelector("#birthDate").value),
       email: clean(document.querySelector("#email").value).toLowerCase(),
       phone: clean(document.querySelector("#phone").value),
       emergency1: clean(document.querySelector("#emergency1").value),

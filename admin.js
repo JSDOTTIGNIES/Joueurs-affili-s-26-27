@@ -164,6 +164,7 @@ function render(){
       <td>${esc(p.address)}</td>
       <td>${esc(p.postalCode || "")}</td>
       <td>${esc(p.city || "")}</td>
+      <td>${esc(p.birthDate || "")}</td>
       <td>${esc(p.email)}</td>
       <td>${esc(p.phone)}</td>
       <td>${esc(p.emergency1)}</td>
@@ -214,6 +215,7 @@ function openEdit(id){
   $("#editAddress").value = p.address || "";
   $("#editPostalCode").value = p.postalCode || "";
   $("#editCity").value = p.city || "";
+  $("#editBirthDate").value = p.birthDate || "";
   $("#editEmail").value = p.email || "";
   $("#editPhone").value = p.phone || "";
   $("#editEmergency1").value = p.emergency1 || "";
@@ -254,6 +256,7 @@ $("#editForm").addEventListener("submit", async (e) => {
       address: $("#editAddress").value.trim(),
       postalCode: $("#editPostalCode").value.trim(),
       city: $("#editCity").value.trim(),
+      birthDate: $("#editBirthDate").value,
       email: $("#editEmail").value.trim().toLowerCase(),
       phone: $("#editPhone").value.trim(),
       emergency1: $("#editEmergency1").value.trim(),
@@ -301,6 +304,7 @@ $("#exportBtn").addEventListener("click", () => {
     "Adresse": p.address || "",
     "Code postal": p.postalCode || "",
     "Ville": p.city || "",
+    "Date de naissance": p.birthDate || "",
     "E-mail": p.email || "",
     "Téléphone": p.phone || "",
     "Téléphone urgence 1": p.emergency1 || "",
